@@ -923,7 +923,7 @@ PJ_DEF(pj_status_t) pjsua_acc_modify( pjsua_acc_id acc_id,
         if (!PJSIP_URI_SCHEME_IS_SIP(reg_uri) && 
             !PJSIP_URI_SCHEME_IS_SIPS(reg_uri)) 
         {
-            status = PJSIP_EINVALIDSCHEME;
+            status = PJSIP_EINVALIDSCHEME; 
             pjsua_perror(THIS_FILE, "Invalid registar URI", status);
             goto on_return;
         }
@@ -3689,6 +3689,8 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
     addr->host = tfla2_prm.ret_addr;
     addr->port = tfla2_prm.ret_port;
 
+    PJ_LOG(4, (THIS_FILE, "XXXX Selected local address for Contact/Via: %.*s", (int)addr->host.slen, addr->host.ptr));
+
     /* If we are behind NAT64, use the Contact and Via address from
      * the UDP6 transport, which should be obtained from STUN.
      */
@@ -3703,9 +3705,12 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
         if (status == PJ_SUCCESS) {
             update_addr = PJ_FALSE;
             addr->host = tfla2_prm2.ret_addr;
+            /* output updated addr->host for debugging */
             pj_strdup(acc->pool, &acc->via_addr.host, &addr->host);
             acc->via_addr.port = addr->port;
             acc->via_tp = (pjsip_transport *)tfla2_prm.ret_tp;
+            PJ_LOG(4, (THIS_FILE, " XXXX Updated acc->via_addr.host for acc %d: %.*s:%d",
+                       acc->index, (int)addr->host.slen, addr->host.ptr, addr->port));
         }
     } else
     /* For UDP transport, check if we need to overwrite the address
