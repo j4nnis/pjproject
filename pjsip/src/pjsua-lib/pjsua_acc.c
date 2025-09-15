@@ -3886,6 +3886,15 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
             addr->port = tp->local_name.port;
             tp_type = tp->key.type;
 
+            /* output updated tp_type */
+            PJ_LOG(4, (THIS_FILE, "XXXX3 Updated tp_type: %d", tp_type));
+            PJ_LOG(4, (THIS_FILE, "XXXX3 Updated type_name: %s", tp->type_name));
+            PJ_LOG(4, (THIS_FILE, "XXXX3 Updated info: %d", tp->info));
+
+            // tp->local_name.host is an ipv6 address
+            
+
+
             PJ_LOG(4, (THIS_FILE, "XXXX3 Updated acc->via_addr.host for acc %d: %.*s:%d",
             acc->index, (int)addr->host.slen, addr->host.ptr, addr->port));
         }
