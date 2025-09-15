@@ -3724,10 +3724,13 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
         for (i = 0; i < (int)PJ_ARRAY_SIZE(pjsua_var.tpdata); i++) {
             if (tfla2_prm.ret_tp==(const void *)pjsua_var.tpdata[i].data.tp) {
                 if (pjsua_var.tpdata[i].has_cfg_addr) {
+
                     pj_strdup(pool, &addr->host,
                               &pjsua_var.tpdata[i].data.tp->local_name.host);
                     addr->port = (pj_uint16_t)
                                  pjsua_var.tpdata[i].data.tp->local_name.port;
+                    PJ_LOG(4, (THIS_FILE, " XXXX2 Updated acc->via_addr.host for acc %d: %.*s:%d",
+                                acc->index, (int)addr->host.slen, addr->host.ptr, addr->port));
                 }
                 break;
             }
@@ -3881,6 +3884,9 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
             if (update_addr)
                 pj_strdup(pool, &addr->host, &tp->local_name.host);
             addr->port = tp->local_name.port;
+
+            PJ_LOG(4, (THIS_FILE, "XXXX3 Updated acc->via_addr.host for acc %d: %.*s:%d",
+            acc->index, (int)addr->host.slen, addr->host.ptr, addr->port));
         }
 
         /* Here the transport's ref counter WILL reach zero. But the
