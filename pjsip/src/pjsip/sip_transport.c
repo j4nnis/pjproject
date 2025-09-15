@@ -1938,7 +1938,7 @@ PJ_DEF(pj_status_t) pjsip_tpmgr_find_local_addr( pjsip_tpmgr *tpmgr,
                                                  int *port)
 {
     pjsip_tpmgr_fla2_param prm;
-    pj_status_t status;
+    pj_status_t status; 
 
     pjsip_tpmgr_fla2_param_default(&prm);
     prm.tp_type = type;

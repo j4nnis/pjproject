@@ -3682,12 +3682,20 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
 
     tpmgr = pjsip_endpt_get_tpmgr(pjsua_var.endpt);
     status = pjsip_tpmgr_find_local_addr2(tpmgr, pool, &tfla2_prm);
+
+
     if (status != PJ_SUCCESS)
         return status;
 
     /* Set this as default return value. This may be changed below. */
     addr->host = tfla2_prm.ret_addr;
     addr->port = tfla2_prm.ret_port;
+
+
+    /* Update tp_type based on returned local address */
+    if (pj_strchr(&addr->host, ':'))
+        tp_type |= PJSIP_TRANSPORT_IPV6;
+    PJ_LOG(4, (THIS_FILE, "XXXX addr->host is ipv6"));
 
     PJ_LOG(4, (THIS_FILE, "XXXX Selected local address for Contact/Via: %.*s", (int)addr->host.slen, addr->host.ptr));
 
@@ -3885,8 +3893,11 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
                 pj_strdup(pool, &addr->host, &tp->local_name.host);
             addr->port = tp->local_name.port;
             tp_type = tp->key.type;
+            PJ_LOG(4, (THIS_FILE, "XXXX3 will check if tp->local_name.host is ipv6"));
 
             if (pj_strchr(&tp->local_name.host, ':')) {
+                PJ_LOG(4, (THIS_FILE, "XXXX3 is ipv6"));
+
                 tp_type |= PJSIP_TRANSPORT_IPV6;
             }
             
