@@ -3884,6 +3884,7 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
             if (update_addr)
                 pj_strdup(pool, &addr->host, &tp->local_name.host);
             addr->port = tp->local_name.port;
+            tp_type = tp->key.type;
 
             PJ_LOG(4, (THIS_FILE, "XXXX3 Updated acc->via_addr.host for acc %d: %.*s:%d",
             acc->index, (int)addr->host.slen, addr->host.ptr, addr->port));
