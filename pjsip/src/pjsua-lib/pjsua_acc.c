@@ -3886,6 +3886,10 @@ pj_status_t pjsua_acc_get_uac_addr(pjsua_acc_id acc_id,
             addr->port = tp->local_name.port;
             tp_type = tp->key.type;
 
+            if (pj_strchr(&tp->local_name.host, ':')) {
+                tp_type |= PJSIP_TRANSPORT_IPV6;
+            }
+            
             /* output updated tp_type */
             PJ_LOG(4, (THIS_FILE, "XXXX3 Updated tp_type: %d", tp_type));
             PJ_LOG(4, (THIS_FILE, "XXXX3 Updated type_name: %s", tp->type_name));
