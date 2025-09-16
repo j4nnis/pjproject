@@ -38,7 +38,7 @@
 
 #define THIS_FILE    "sip_transport.c"
 
-#if 0
+#if 1
 #   define TRACE_(x)    PJ_LOG(5,x)
 
 static const char *addr_string(const pj_sockaddr_t *addr)
